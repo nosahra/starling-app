@@ -16,7 +16,6 @@ export async function GET() {
     const errorData = await res.json().catch(() => ({}));
     console.error("Starling Error Details:", errorData);
 
-    // Return the actual status and error message from Starling
     return Response.json(
       { error: "Starling request failed", details: errorData },
       { status: res.status }
