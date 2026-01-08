@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { AmountContext } from "./amountContext";
+import { AmountContext } from "./context";
 import SendSavingsComponent from "./sendSavings";
 
 
@@ -19,6 +19,8 @@ const TransactionsComponent = () => {
   const [transactions, setTransactions] = useState<StarlingTransaction[]>([]);
   const outTransactions = new Array;
 
+  
+
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
@@ -29,7 +31,6 @@ const TransactionsComponent = () => {
         console.error("Failed to fetch transactions:", error);
       }
     };
-
     fetchTransaction();
   }, []);
 
@@ -63,11 +64,11 @@ const TransactionsComponent = () => {
   }
   return (
     <>
-         <h1>Spendings from last 7 days:</h1>
+         <h2 className="flex bg-pink-400 text-3xl">Spendings from last 7 days:</h2>
       {outTransactions.map((trans, idx) => (
         <div key={idx}>
-          <h3>
-            {trans.reference}: {(trans.amount.minorUnits / 100).toFixed(2)}{" "}
+          <h3 className="flex bg-orange-400 m-1">
+            {trans.reference || trans.source}: {(trans.amount.minorUnits / 100).toFixed(2)}{" "}
             {trans.amount.currency}
           </h3>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useState, useEffect } from "react";
-import { useAmountContext } from "./amountContext";
+import { useAmountContext } from "./context";
 
 const SendSavingsComponent = () => {
     const amountToSavings = useAmountContext();
@@ -44,8 +44,8 @@ const SendSavingsComponent = () => {
         });
 
         if (res.ok) {
-          alert("Money moved successfully!");
-          setShowGoalSelector(false);
+          alert("Money moved successfully! Page will refresh");
+          window.location.reload();
         } else {
           alert("Transfer failed...")
         }

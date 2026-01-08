@@ -6,7 +6,6 @@ import SavingsComponent from "./Components/seeSavings";
 const Home = () => {
   return (
     <main>
-      <div>Home</div>
       <UsersComponent />
       <BalanceComponent />
       <TransactionsComponent />
