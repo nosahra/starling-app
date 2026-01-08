@@ -31,7 +31,7 @@ const balanceComponent = () => {
   const currency = balance.clearedBalance.currency;
   return (
     <>
-      <h2 className="felx bg-purple-400 text-lg mt-1 mb-3">
+      <h2 className="felx bg-purple-400 text-lg mt-1 mb-3 p-1">
         Cleared Balance: {displayAmount} {currency}
       </h2>
     </>

@@ -55,7 +55,7 @@ const SavingsComponent = () => {
   };
   return (
     <>
-      <h1>Savings Goals:</h1>
+      <h1 className="flex bg-green-400 mt-3 mb-2 text-xl p-1">Savings Goals:</h1>
       {goals.map((goal, idx) => (
         <div key={idx}>
           <h2>

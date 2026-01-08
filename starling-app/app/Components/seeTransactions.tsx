@@ -64,7 +64,7 @@ const TransactionsComponent = () => {
   }
   return (
     <>
-         <h2 className="flex bg-pink-400 text-3xl">Spendings from last 7 days:</h2>
+         <h2 className="flex bg-pink-400 text-3xl p-1 mb-1">Spendings from last 7 days:</h2>
       {outTransactions.map((trans, idx) => (
         <div key={idx}>
           <h3 className="flex bg-orange-400 m-1">
