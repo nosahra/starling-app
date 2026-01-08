@@ -1,5 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
+import { AmountContext } from "./context";
+import SendSavingsComponent from "./sendSavings";
+
 
 const TransactionsComponent = () => {
   interface StarlingTransaction {
@@ -13,8 +16,10 @@ const TransactionsComponent = () => {
     direction: "OUT";
   }
 
-  const latestTransactions: StarlingTransaction[] = new Array();
   const [transactions, setTransactions] = useState<StarlingTransaction[]>([]);
+  const outTransactions = new Array;
+
+  
 
   useEffect(() => {
     const fetchTransaction = async () => {
@@ -26,19 +31,13 @@ const TransactionsComponent = () => {
         console.error("Failed to fetch transactions:", error);
       }
     };
-
     fetchTransaction();
   }, []);
 
-  const filterTransactions = () => {
-    const cutOff = Date.now() - 1000 * 60 * 60 * 24 * 7; //calculates the date in miliseconds seven days ago
-    for (let i = 0; i < transactions.length; i++) {
-      if (
-        transactions[i].direction === "OUT" &&
-        new Date(transactions[i].transactionTime).getTime() > cutOff
-      ) {
-        //if the date on a transaction (OUT) is after the cutoff time
-        latestTransactions.push(transactions[i]); //then put this date in latestTransactions array
+  const getOutOnly = (transactions: StarlingTransaction[]) => {
+    for (let i=0; i<transactions.length; i++) {
+      if (transactions[i].direction == 'OUT') {
+        outTransactions.push(transactions[i]);
       }
     }
   };
@@ -54,33 +53,29 @@ const TransactionsComponent = () => {
     return total;
   };
 
-  filterTransactions();
-  const amountToSavings = roundUpTransactions(latestTransactions);
+  getOutOnly(transactions);
+  const amountToSavings = roundUpTransactions(outTransactions);
 
   if (!transactions) {
     return <div>Loading transactions... we'll get there too :D</div>;
   }
+  if (!outTransactions) {
+    return <div>No outgoing transactions this week!</div>
+  }
   return (
     <>
-      <h1>Spendings from last 7 days:</h1>
-      {latestTransactions.map((trans, idx) => (
+         <h2 className="flex bg-pink-400 text-3xl p-1 mb-1">Spendings from last 7 days:</h2>
+      {outTransactions.map((trans, idx) => (
         <div key={idx}>
-          <h3>
-            {trans.reference}: {trans.amount.minorUnits / 100}{" "}
+          <h3 className="flex bg-orange-400 m-1">
+            {trans.reference || trans.source}: {(trans.amount.minorUnits / 100).toFixed(2)}{" "}
             {trans.amount.currency}
           </h3>
         </div>
       ))}
-      <p>
-        Rounding up all your spendings this week, you have{" "}
-        {amountToSavings / 100}{" "}
-        {latestTransactions[0]?.amount.currency || "GBP"} to move into your
-        savings pot.
-      </p>
-      <button className="bg-white text-black p-5 hover:cursor-pointer">
-        Move {amountToSavings / 100}{" "}
-        {latestTransactions[0]?.amount.currency || ""} to savings
-      </button>
+    <AmountContext.Provider value={amountToSavings}>
+      <SendSavingsComponent />
+    </AmountContext.Provider>
     </>
   );
 };

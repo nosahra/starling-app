@@ -27,12 +27,12 @@ const balanceComponent = () => {
     return <div>Loading balance... we'll get there...</div>;
   }
 
-  const displayAmount = balance.clearedBalance.minorUnits / 100;
+  const displayAmount = (balance.clearedBalance.minorUnits / 100).toFixed(2);
   const currency = balance.clearedBalance.currency;
   return (
     <>
-      <h2>
-        Cleared Balance: {currency} {displayAmount}
+      <h2 className="felx bg-purple-400 text-lg mt-1 mb-3 p-1">
+        Cleared Balance: {displayAmount} {currency}
       </h2>
     </>
   );

@@ -2,7 +2,14 @@ export async function GET() {
   const token = process.env.STARLING_ACCESS_TOKEN;
   const account = process.env.STARLING_ACCOUNT_UID;
   const category = process.env.STARLING_CATEGORY_UID;
-  const changesSince = "2024-12-15T14:13:41.875Z";
+  
+  const getSevenDaysAgo = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 7);
+    return date.toISOString();
+  };
+
+  const changesSince = getSevenDaysAgo();
 
   const res = await fetch(
     `https://api-sandbox.starlingbank.com/api/v2/feed/account/${account}/category/${category}?changesSince=${changesSince}`,

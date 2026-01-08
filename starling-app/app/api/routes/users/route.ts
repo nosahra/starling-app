@@ -18,22 +18,18 @@ export async function GET() {
       }
     );
     if (!res.ok) {
-      // 2. LOG the Starling Status Code (e.g., 401, 403, 404)
       console.error(`Starling API request failed with status: ${res.status}`);
 
-      // 3. LOG the Error Body (This is the most critical part!)
       const errorBody = await res.text();
       console.error("Starling API Error Response Body:", errorBody);
 
-      // Return the appropriate error status (401 is common for auth failure)
-      // We use the status *from Starling* if it's 4xx/5xx to be more descriptive.
       return new Response(
         JSON.stringify({
           error: `Starling API failed. Status: ${res.status}`,
-          details: errorBody, // Include the Starling error details
+          details: errorBody, 
         }),
         {
-          status: res.status, // Use the actual status code from Starling
+          status: res.status,
           headers: { "Content-Type": "application/json" },
         }
       );

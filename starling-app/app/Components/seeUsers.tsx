@@ -27,8 +27,8 @@ const UsersComponent = () => {
     <>
       {users.map((user, idx) => (
         <div key={idx}>
-          <h1>
-            {idx} : {user.accountUid}
+          <h1 className="flex bg-blue-400 font-size-10 text-lg mt-1 p-1">
+            {'Account type'}: {user.accountType}
           </h1>
         </div>
       ))}
